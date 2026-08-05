@@ -12,22 +12,27 @@ export async function proxy(request: NextRequest) {
     (route) => pathname === route || pathname.startsWith(`${route}/`)
   )
   const isPublicRoute = publicRoutes.includes(pathname)
+  const accessToken = request.cookies.get('accessToken')?.value
+  const refreshToken = request.cookies.get('refreshToken')?.value
 
-  let isAuthenticated = false
+  let isAuthenticated = Boolean(accessToken)
   let refreshedCookies: string[] = []
-  try {
-    const session = await checkSession(request.headers.get('cookie') ?? '')
-    isAuthenticated = session.success
-    refreshedCookies = session.setCookie
-  } catch {
-    isAuthenticated = false
+
+  if (!accessToken && refreshToken) {
+    try {
+      const session = await checkSession(request.headers.get('cookie') ?? '')
+      isAuthenticated = session.success
+      refreshedCookies = session.setCookie
+    } catch {
+      isAuthenticated = false
+    }
   }
 
   let response: NextResponse
   if (isPrivateRoute && !isAuthenticated) {
     response = NextResponse.redirect(new URL('/sign-in', request.url))
   } else if (isPublicRoute && isAuthenticated) {
-    response = NextResponse.redirect(new URL('/profile', request.url))
+    response = NextResponse.redirect(new URL('/', request.url))
   } else {
     response = NextResponse.next()
   }
