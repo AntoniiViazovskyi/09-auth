@@ -4,7 +4,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import css from '@/components/NoteForm/NoteForm.module.css'
 import { useNoteDraftStore } from '@/lib/store/noteStore'
 import { NoteTag } from '@/types/note'
-import { createNote } from '@/lib/api'
+import { createNote } from '@/lib/api/clientApi'
 import Loader from '../Loader/Loader'
 import { useRouter } from 'next/navigation'
 

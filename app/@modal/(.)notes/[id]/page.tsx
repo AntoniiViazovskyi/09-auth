@@ -1,4 +1,4 @@
-import { fetchNoteById } from '@/lib/api'
+import { fetchNoteById } from '@/lib/api/serverApi'
 import NotePreviewClient from '@/app/@modal/(.)notes/[id]/NotePreview.client'
 import {
   QueryClient,

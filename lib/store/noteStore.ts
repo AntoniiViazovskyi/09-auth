@@ -1,5 +1,5 @@
 import { create } from 'zustand'
-import { CreateNoteRequest } from '../api'
+import type { CreateNoteRequest } from '../api/clientApi'
 import { NoteTag } from '@/types/note'
 import { persist } from 'zustand/middleware'
 
